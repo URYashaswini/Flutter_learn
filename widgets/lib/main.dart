@@ -31,19 +31,46 @@ class columnwidget extends StatefulWidget {
 class columnwidgetstate extends State<columnwidget> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
+    return ListView(children: [
+      Column(
         children: [
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const MyStatelessWidget(),
             const SizedBox(
               width: 20,
             ),
             dropdownwidget()
-          ])
+          ]),
+          Image.network(
+            "https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510_960_720.jpg",
+            height: 300,
+            width: 300,
+          ),
+          const Text(
+            "This is network image",
+            style: TextStyle(fontSize: 20),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          const CircleAvatar(
+            backgroundImage: NetworkImage(
+              "https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510_960_720.jpg",
+            ),
+            radius: 100,
+          ),
+          Image.asset(
+            'images/image.jpeg',
+            height: 300,
+            width: 300,
+          ),
+          const Text(
+            "This is assets image",
+            style: TextStyle(fontSize: 20),
+          ),
         ],
-      ),
-    );
+      )
+    ]);
   }
 }
 
@@ -95,7 +122,7 @@ class dropdownwidgetState extends State<dropdownwidget> {
       style: const TextStyle(color: Colors.black),
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Colors.blueAccent,
       ),
       items: <String>['A', 'B', 'C', 'D', 'E']
           .map<DropdownMenuItem<String>>((String value) {
