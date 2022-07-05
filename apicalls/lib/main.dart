@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:apicalls/Album.dart';
 import 'package:apicalls/datapage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,11 +8,11 @@ void main() {
   runApp(datapage());
 }
 
-Future<Album> fetchAlbum() async {
+Future fetchAlbum() async {
   final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+      .get(Uri.parse('https://api.qa.cdonedelivers.com/v5/bags/locations'));
   if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body));
+    return jsonDecode(response.body);
   } else {
     throw Exception('Failed to load the album');
   }
@@ -27,7 +26,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppstate extends State<MyApp> {
-  late Future<Album> futureAlbum;
+  late Future futureAlbum;
   @override
   void initState() {
     super.initState();
@@ -47,7 +46,6 @@ class _MyAppstate extends State<MyApp> {
         ),
         body: Center(
           child: FutureBuilder<Album>(
-            future: futureAlbum,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Center(
@@ -55,7 +53,7 @@ class _MyAppstate extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                      Text("Title: ${snapshot.data!.title}"),
+                      Text("Title: ${snapshot.data!.location}"),
                       Text("id:${snapshot.data!.id}")
                     ]));
               } else if (snapshot.hasError) {
@@ -68,6 +66,23 @@ class _MyAppstate extends State<MyApp> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Album {
+  int? id;
+  String location;
+
+  Album({
+    required this.id,
+    required this.location,
+  });
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      id: json['id'],
+      location: json['location'],
     );
   }
 }
