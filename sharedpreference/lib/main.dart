@@ -1,81 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sharedpreference/homepage.dart';
+import 'package:sharedpreference/welcomepage.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Shared preferences demo',
-      home: MyHomePage(title: 'Shared preferences demo'),
+    return MaterialApp(
+      theme: ThemeData(primaryColor: Colors.white, primarySwatch: Colors.amber),
+      home: firstPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class firstPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    return _firstPageState();
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCounter();
-  }
-
-  //Loading counter value on start
-  Future<void> _loadCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _counter = (prefs.getInt('counter') ?? 0);
-    });
-  }
-
-  //Incrementing counter after click
-  Future<void> _incrementCounter() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _counter = (prefs.getInt('counter') ?? 0) + 1;
-      prefs.setInt('counter', _counter);
-    });
-  }
-
+class _firstPageState extends State<firstPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: const Text('Sharedprference')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          child: ElevatedButton(
+        child: Text('Click', style: TextStyle(color: Colors.black)),
+        onPressed: () async {
+          bool visitingflag = await getVisitingFlag();
+          setvisitingFlag();
+          if (visitingflag == true) {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HomePage()));
+          } else {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => WelcomePage()));
+          }
+        },
+      )),
     );
   }
+}
+
+setvisitingFlag() async {
+  final pref = await SharedPreferences.getInstance();
+  pref.setBool('visited', true);
+}
+
+getVisitingFlag() async {
+  final pref = await SharedPreferences.getInstance();
+  bool visited = pref.getBool("visited") ?? false;
+  return visited;
 }

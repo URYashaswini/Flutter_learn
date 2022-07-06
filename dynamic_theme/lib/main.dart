@@ -2,7 +2,7 @@ import 'package:dynamic_theme/ThemePage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Themes());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
