@@ -23,7 +23,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
   @override
   void initState() {
     super.initState();
-    // _db = AppDb();
+    _db = AppDb();
   }
 
   @override
@@ -46,6 +46,10 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           IconButton(
               onPressed: () {
                 addEmployee();
+                _DOBController.clear();
+                _firstNameController.clear();
+                _lastNameController.clear();
+                _userNameController.clear();
               },
               icon: const Icon(Icons.save))
         ],
@@ -122,8 +126,9 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
               content: Text('New employee inserted $value'),
               actions: [
                 TextButton(
-                    onPressed: () => ScaffoldMessenger.of(context)
-                        .hideCurrentMaterialBanner(),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+                    },
                     child: Text('Close'))
               ],
             ),

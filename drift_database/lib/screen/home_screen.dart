@@ -1,5 +1,6 @@
 import 'package:drift_database/data/local/db/app_db.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,14 +43,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: employees.length,
                 itemBuilder: (context, index) {
                   final employee = employees[index];
-                  return Card(
-                    child: Column(
-                      children: [
-                        Text('${employee.id}'),
-                        Text('${employee.userName}'),
-                        Text('${employee.firtName} ${employee.lastName}'),
-                        Text('${employee.dateOfBirth}'),
-                      ],
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/edit_employee');
+                    },
+                    child: Card(
+                      color: (Colors.teal[100])!,
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: (Colors.teal[300])!,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('${employee.id}'),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text(employee.userName),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text('${employee.firtName} ${employee.lastName}'),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text(DateFormat('dd/mm/yyy')
+                                .format(employee.dateOfBirth)),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 });

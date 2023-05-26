@@ -1,4 +1,5 @@
 import 'package:drift_database/screen/add_employee_screen.dart';
+import 'package:drift_database/screen/edit_employee_screen.dart';
 import 'package:drift_database/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case '/add_employee':
         return MaterialPageRoute(builder: (_) => const AddEmployeeScreen());
+      case '/edit_employee':
+        return MaterialPageRoute(builder: (_) => const EditEmployeeScreen());
       default:
         return _errorRoute();
     }
